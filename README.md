@@ -20,7 +20,7 @@ Shell script para setar um ambiente de produção do Laravel no Ubuntu.
 1) Baixe o script
 
 ```
-wget https://github.com/prsidnei/deploy.sh.git -O deploy.sh
+wget https://github.com/prsidnei/setup-laravel-nginx/blob/master/deploy.sh -O deploy.sh
 chmod +x deploy.sh
 ```
 2) Configure a senha do MySQL
