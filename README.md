@@ -17,25 +17,97 @@ Shell script para setar um ambiente de produção do Laravel no Ubuntu.
 
 ## Instalação
 
-1). Baixe o script
+1) Baixe o script
 
 ```
-wget https://raw.githubusercontent.com/summerblue/laravel-ubuntu-init/master/deploy-16.sh -O deploy.sh
+wget https://github.com/prsidnei/deploy.sh.git -O deploy.sh
 chmod +x deploy.sh
 ```
+2) Configure a senha do MySQL
 
-sudo vim deploy.sh
-e editar a senha:
+`sudo vim deploy.sh` e edite a senha:
+
+```
 # Configure
 MYSQL_ROOT_PASSWORD="{{--Your Password--}}"
 MYSQL_NORMAL_USER="estuser"
 MYSQL_NORMAL_USER_PASSWORD="{{--Your Password--}}"
-depois de instalar:
+```
+
+3) Inicie a instalação
+
+Execute o shell script:
+
+```
+./deploy.sh
+```
+
+> Note: Voce de estar logado como `root`.
+
+A instalação será finalizada com esta mensagem:
+
+```
+"Esta Feito!!!!."
+"Mysql Root Password: ${MYSQL_ROOT_PASSWORD}"
+"Mysql Normal User: ${MYSQL_NORMAL_USER}"
+"Mysql Normal User Password: ${MYSQL_NORMAL_USER_PASSWORD}"
+```
+
+## Após a instalação:
+
+### 1. Permissão de root para o usuário Web
+
+Nginx usa o usuário `www`, e para que tudo funcione corretamente você de alterar o dono do diretório:
+
+```
 cd /data/www/{DIRETORIO DO SEU PROJETO}
 chown www:www -R ./
-permissão de root para o diretório
-adicionar um site
- 908 b
- Exemplo de arquivo config Nginx para Laravel
-deve ser salvo no diretório /etc/nginx/sites-enabled
-por exemplo: /etc/nginx/sites-enabled/exemplo.org
+```
+### 2. Adicionar um site
+
+Template de arquivo de configuração do Nginx para Laravel que deverá ser salvo no diretório `/etc/nginx/sites-enabled`
+Por exemplo: `/etc/nginx/sites-enabled/exemplo.org`
+
+```
+server {
+    listen 80;
+    server_name {{---SEU DOMINIO---}};
+    root "{{---DIRETORIO DO PROJETO---}}";
+
+    index index.html index.htm index.php;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    access_log /data/log/nginx/{{---NOME DO PROJETO---}}-access.log;
+    error_log  /data/log/nginx/{{---NOME DO PROJETO---}}-error.log error;
+
+    sendfile off;
+
+    client_max_body_size 100m;
+
+    include fastcgi.conf;
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+}
+```
+Restartar o Nginx:
+
+```
+service nginx restart
+```
