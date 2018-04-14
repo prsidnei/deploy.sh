@@ -57,7 +57,7 @@ A instalação será finalizada com esta mensagem:
 
 ### 1. Permissão de root para o usuário Web
 
-Nginx usa o usuário `www`, e para que tudo funcione corretamente você de alterar o dono do diretório:
+O Nginx usa o usuário `www`, e para que tudo funcione corretamente você deve alterar as permissões diretório:
 
 ```
 cd /data/www/{DIRETORIO DO SEU PROJETO}
@@ -65,7 +65,7 @@ chown www:www -R ./
 ```
 ### 2. Adicionar um site
 
-Template de arquivo de configuração do Nginx para Laravel que deverá ser salvo no diretório `/etc/nginx/sites-enabled`
+Template de arquivo de configuração do Nginx para Laravel que deverá ser salvo no diretório `/etc/nginx/sites-enabled`.
 Por exemplo: `/etc/nginx/sites-enabled/exemplo.org`
 
 ```
