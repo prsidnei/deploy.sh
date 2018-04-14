@@ -39,10 +39,8 @@ MYSQL_NORMAL_USER_PASSWORD="{{--Your Password--}}"
 Execute o shell script:
 
 ```
-./deploy.sh
+sudo ./deploy.sh
 ```
-
-> Note: Voce de estar logado como `root`.
 
 A instalação será finalizada com esta mensagem:
 
