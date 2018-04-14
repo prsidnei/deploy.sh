@@ -58,7 +58,7 @@ A instalação será finalizada com esta mensagem:
 O Nginx usa o usuário `www`, e para que tudo funcione corretamente você deve alterar as permissões diretório:
 
 ```
-cd /www/data/{DIRETORIO DO SEU PROJETO}
+cd /data/www/{DIRETORIO DO SEU PROJETO}
 chown www:www -R ./
 ```
 ### 2. Adicionar um site
@@ -83,8 +83,8 @@ server {
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
 
-    access_log /www/log/nginx/{{---NOME DO PROJETO---}}-access.log;
-    error_log  /www/log/nginx/{{---NOME DO PROJETO---}}-error.log error;
+    access_log /data/log/nginx/{{---NOME DO PROJETO---}}-access.log;
+    error_log  /data/log/nginx/{{---NOME DO PROJETO---}}-error.log error;
 
     sendfile off;
 
